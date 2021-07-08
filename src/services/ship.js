@@ -1,53 +1,64 @@
-export const shipMovement = (cursors, ship) => {
-  if (cursors.down.isDown && cursors.right.isDown) {
-    console.log("down and right");
-    ship.setVelocityX(100);
-    ship.setVelocityY(100);
-    ship.angle = 135;
-    ship.anims.play("fast", true);
-  } else if (cursors.down.isDown && cursors.left.isDown) {
-    console.log("down  and left");
-    ship.setVelocityX(-100);
-    ship.setVelocityY(100);
-    ship.angle = -135;
-    ship.anims.play("fast", true);
-  } else if (cursors.up.isDown && cursors.right.isDown) {
-    console.log("up and right");
-    ship.setVelocityX(100);
-    ship.setVelocityY(-100);
-    ship.angle = 45;
-    ship.anims.play("fast", true);
-  } else if (cursors.up.isDown && cursors.left.isDown) {
-    console.log("up and left");
-    ship.setVelocityX(-100);
-    ship.setVelocityY(-100);
-    ship.angle = -45;
-    ship.anims.play("fast", true);
-  } else if (cursors.right.isDown) {
-    ship.setVelocityX(100);
-    ship.angle = 90;
-    console.log("right");
-    ship.anims.play("fast", true);
-  } else if (cursors.left.isDown) {
-    ship.setVelocityX(-100);
-    ship.anims.play("fast", true);
-    ship.angle = -90;
-
-    console.log("left");
-  } else if (cursors.up.isDown) {
-    ship.setVelocityY(-100);
-    ship.anims.play("fast", true);
-    ship.angle = 0;
+const movement = {
+  up: (ship) => {
     console.log("up");
-  } else if (cursors.down.isDown) {
-    ship.setVelocityY(100);
-    ship.anims.play("fast", true);
-    ship.angle = 180;
+
+    ship.setVelocityX(0);
+    ship.setVelocityY(-100);
+
+    ship.angle = 0;
+    ship.anims.play("movement", true);
+  },
+
+  down: (ship) => {
     console.log("down");
-  } else {
-    ship.anims.play("stop", true);
+
+    ship.setVelocityX(0);
+    ship.setVelocityY(100);
+
+    ship.angle = 180;
+    ship.anims.play("movement", true);
+  },
+
+  right: (ship) => {
+    console.log("right");
+
+    ship.setVelocityX(100);
+    ship.setVelocityY(0);
+
+    ship.angle = 90;
+    ship.anims.play("movement", true);
+  },
+
+  left: (ship) => {
+    console.log("left");
+
+    ship.setVelocityX(-100);
+    ship.setVelocityY(0);
+
+    ship.angle = -90;
+    ship.anims.play("movement", true);
+  },
+
+  space: (ship) => {
+    console.log("stop");
+
     ship.setVelocityX(0);
     ship.setVelocityY(0);
-    console.log("stop");
+
+    ship.anims.play("stop", true);
+  },
+};
+
+export const handlerKeyPressed = (cursors, ship) => {
+  try {
+    for (const [key, value] of Object.entries(cursors)) {
+      if (value.isDown) {
+        movement[key](ship);
+        break;
+      }
+      movement["space"](ship);
+    }
+  } catch (error) {
+    console.error(error);
   }
 };

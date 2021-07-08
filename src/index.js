@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import spaceBackground from "@/assets/space-background.png";
 import shipSprite from "@/assets/ship-sprite.png";
 
-import { shipMovement } from "@/services/ship";
+import { handlerKeyPressed } from "@/services/ship";
 
 class MyGame extends Phaser.Scene {
   constructor(...args) {
@@ -35,7 +35,7 @@ class MyGame extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "fast",
+      key: "movement",
       frames: [{ key: "ship", frame: 0 }],
       frameRate: 8,
     });
@@ -44,7 +44,7 @@ class MyGame extends Phaser.Scene {
   }
 
   update() {
-    shipMovement(this.cursors, this.ship);
+    handlerKeyPressed(this.cursors, this.ship);
   }
 }
 
